@@ -1,4 +1,4 @@
-module configo
+module github.com/dhnikolas/configo
 
 go 1.12
 
