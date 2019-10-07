@@ -12,10 +12,10 @@ type Source interface {
 	GetVariables() (map[string]string, error)
 }
 
-func LoadConfigs(sources ...Source)  {
+func LoadConfigs(sources ...Source) {
 	ConfigVariables = make(map[string]string)
 
-	for _, s := range sources{
+	for _, s := range sources {
 		vars, err := s.GetVariables()
 		if err != nil {
 			panic(err)
@@ -61,5 +61,3 @@ func getEnv(key string) (string, bool) {
 
 	return "", false
 }
-
-

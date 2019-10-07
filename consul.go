@@ -7,10 +7,10 @@ import (
 
 type ConsulOptions struct {
 	DefaultPath string
-	Path string
-	Prefix string
-	Host string
-	Token string
+	Path        string
+	Prefix      string
+	Host        string
+	Token       string
 }
 
 type Consul struct {
@@ -23,11 +23,11 @@ func NewConsulSource(co ConsulOptions) *Consul {
 	return c
 }
 
-func (c *Consul) GetVariables () (map[string]string, error) {
+func (c *Consul) GetVariables() (map[string]string, error) {
 	return c.getConsulVariables()
 }
 
-func (c *Consul) getConsulVariables () (map[string]string, error) {
+func (c *Consul) getConsulVariables() (map[string]string, error) {
 	vars := make(map[string]string)
 
 	kv, err := c.getKVClient()
@@ -48,10 +48,10 @@ func (c *Consul) getConsulVariables () (map[string]string, error) {
 	return vars, err
 }
 
-func (c *Consul) getKVClient () (*api.KV, error) {
+func (c *Consul) getKVClient() (*api.KV, error) {
 	cfg := &api.Config{
-		Address:    c.options.Host,
-		Token:		c.options.Token,
+		Address: c.options.Host,
+		Token:   c.options.Token,
 	}
 	client, err := api.NewClient(cfg)
 	if err == nil {
@@ -61,16 +61,16 @@ func (c *Consul) getKVClient () (*api.KV, error) {
 	return nil, err
 }
 
-func (c *Consul) readVariables (path string, kv *api.KV, m map[string]string) error {
+func (c *Consul) readVariables(path string, kv *api.KV, m map[string]string) error {
 	qo := &api.QueryOptions{}
 	pairs, _, err := kv.List(path, qo)
 	if err != nil {
 		return err
 	}
-	for _, pair := range pairs{
+	for _, pair := range pairs {
 		key := c.prepareKeyString(path, pair.Key)
 		if len(key) > 0 {
-			m[c.options.Prefix + key] = string(pair.Value)
+			m[c.options.Prefix+key] = string(pair.Value)
 		}
 	}
 
