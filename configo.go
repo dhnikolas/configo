@@ -6,14 +6,13 @@ import (
 	"syscall"
 )
 
-var ConfigVariables map[string]string
+var ConfigVariables = map[string]string{}
 
 type Source interface {
 	GetVariables() (map[string]string, error)
 }
 
 func LoadConfigs(sources ...Source) {
-	ConfigVariables = make(map[string]string)
 
 	for _, s := range sources {
 		vars, err := s.GetVariables()
