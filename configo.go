@@ -48,6 +48,17 @@ func EnvInt(key string, defaultValue int) int {
 	return defaultValue
 }
 
+func EnvBool(key string, defaultValue bool) bool {
+	if value, ok := getEnv(key); ok {
+		i, err := strconv.ParseBool(value)
+		if err == nil {
+			return i
+		}
+	}
+
+	return defaultValue
+}
+
 func getEnv(key string) (string, bool) {
 	value, ok := ConfigVariables[key]
 	if ok {
